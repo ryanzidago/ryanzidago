@@ -1,0 +1,83 @@
++++
+title = "Personal README"
+description = "Who I am, how I work, and what I care about — in README format."
+date = 2026-03-08
+draft = false
+
+[taxonomies]
+tags = ["meta"]
+
+[extra]
+toc = true
+comment = false
++++
+
+## About me
+
+Born in 🇫🇷, living in 🇬🇷.
+
+Software engineer with experience building B2B / Enterprise SaaS products in HR-tech (think shifts scheduling, absence management, payroll, workforce engagement, etc).
+
+## What I like about what I do
+
+I love solving business problems. Very often, there's a very concrete problem to be solved and my role is to unpeel various layers of complexity and ambiguity up to a point that my colleagues and I are confident into implementing the solution. The various layers of complexity could be finding the answers to any or all of the following:
+
+- Why do customers have this problem? What have they tried to solve it?
+- Why do we, as a company, want to solve that problem?
+- How much of the problem do we want to solve? Why?
+- By when do we need to have the problem solved? Why?
+
+## What I don't like about what I do
+
+- Long hours, sitting, in the dark 🌚
+
+## Collaboration style
+
+- I'm a HUGE believer of making it AS EASY AS POSSIBLE for my interlocutor to digest whatever information I'm sharing. For example, if I'm building a feature, I'm making a before and after video explaining the WHY and WHAT of this feature and HOW it will impact customers.
+- I always address an issue after having put some thoughts on how to solve it so as to exercise my brain and save my colleagues time.
+- Threaded asynchronous communication is 👌. Writing forces thinking and self-reflection. It's also self-documenting, transparent, easily shareable and trackable.
+- Happy to jump on a call but I would consider it the exception rather than the rule. When I'm not able to put something in writing and want to jump on a call, it feels as if my thoughts weren't structured enough and I'd be relying on someone else to structure them.
+- I much prefer oversharing than undersharing. I try to structure my writing so that the gist of it can be picked up very easily (by adding a TLDR; or structuring what I'm writing into titled sections) while still giving the opportunity to dive deeper 🤿.
+- If something can be shared asynchronously now instead of synchronously later, it should be shared now. This is because I value information traveling fast / knowledge sharing.
+- I absolutely despise receiving orders and conversely, I never ever give orders at work; always strong suggestions or include "we" when talking. I like the "we" as it emphasises the team and IMHO better reflects reality: the customer doesn't care who does the job, as long as the job is done, thus **WE** must deliver.
+- When guiding someone towards a decision, I ask thoughtful questions that help them explore different perspectives. This approach allows them to understand my reasoning while giving them the freedom to either challenge or embrace the ideas. If I consider the "challenge" part out of place, I explain why. I understand and respect that Agency is a basic human need.
+
+## How to give me feedback
+
+Whatever suits you best. I have a strong preference for facts over judgement, and solutions over problems. For example, "Feature X broke for Y customers, here's what I think we should do" lands much better with me than "you were careless with that release." If I'm doing something wrong, I might not be aware of it — and even if I am, I might not know how to fix it. So being specific and constructive helps me act on it.
+
+## How I give feedback
+
+I tend to ask questions rather than state conclusions. For example, instead of "this approach won't scale," I'd ask "what happens when we have 10x the traffic here?" The goal is for us to arrive at the same understanding together rather than me imposing my view. If I see the reflection going in a direction that doesn't match my experience, I'll share more context and invite another look. This takes longer than just giving directives, but I think it leads to better outcomes and stronger ownership.
+
+## How I take decisions
+
+- Good decisions can lead to bad outcomes and good outcomes can result from bad decisions. I value good decisions more than outcomes. This is because I see decisions as a hedge against randomness.
+- **Cheap > Expensive.** When faced with two solutions and hesitant to which one to choose, I pick the one that's the easiest to revert as it ends up being the least expensive possible solution.
+- **Present > Future.** I prefer to focus on actual current problems instead of possible theoretical ones. This is because even in the most chaotic startup, there are very few current problems in respect to the indefinite range of possible future problems.
+- **Action creates information**, but information does not necessarily create action. Thus, if I don't know what to do because I'm faced with multiple choices, I do a thing, doesn't matter which one. Analysis paralysis is a plague. I'm also a big believer of momentum.
+
+## What you can expect from me
+
+**The good:**
+
+- You will always be met with respect and politeness. I value that a lot.
+- I like to grind.
+- I always try to unblock myself, see how I can perform a task on my own instead of waiting for someone else's support.
+- I like to think I do decently well under pressure.
+
+**The less good:**
+
+- I'm an introvert so constantly being around folks drains my energy.
+- I'm bad at addressing issues right away / giving feedback on the spot; this is because I tend to separate from my gut feeling and introspect; which comes at the cost of spontaneity.
+- I thrive with short feedback loops and SMART goals. Big visions are great, but without concrete milestones they lose me.
+
+## The kind of startup I'd like to build
+
+- B2B / Enterprise SaaS in some legacy industry
+- Remote & asynchronous work
+- Bootstrapped (may eventually raise funds once you have traction for pure scaling)
+- Small focused team
+- Sell first 💰, then build 🛠️
+- Ship fast 🏃‍♀️‍➡️, ship often 📦
+- Perform at the highest level, completely outcome focused (instead of role, seniority, and the like), like an elite sports team would do
