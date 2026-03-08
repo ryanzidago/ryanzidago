@@ -1,7 +1,7 @@
 +++
-title = "Incrementally Enforcing Static Analysis with Coding Agents"
-slug = "incrementally-enforcing-static-analysis-coding-agents"
-description = "A practical strategy for adding linting and static analysis to a legacy codebase using coding agents."
+title = "Incrementally Enforcing Code Quality Rules with Coding Agents"
+slug = "incrementally-enforcing-code-quality-rules-with-coding-agents"
+description = "A practical strategy for adding linting and code quality rules to a legacy codebase using coding agents."
 date = 2026-03-08T00:00:02
 draft = false
 
@@ -36,7 +36,6 @@ You can end up with PRs with +10_000 lines of changes ... This is too much to re
 ## The strategy
 
 Here's what I suggest:
-
 - add the tool
 - enable it in the CI
 - now locally, run the tool to see which config/rules produce offenses
@@ -52,22 +51,21 @@ A word of caution: not all rules are equal. Fixing import ordering is mechanical
 
 Here's what the progression looks like:
 
-| Rule                 | PR #0 | PR #1 | PR #2 | PR #3 | PR #4 | PR #5 | PR #6 |
-| -------------------- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
-| `eqeqeq`             | ✓     | ✓     | ✓     | ✓     | ✓     | ✓     | ✓     |
-| `no-eval`            | ✓     | ✓     | ✓     | ✓     | ✓     | ✓     | ✓     |
-| `import/order`       | ✕     | **✓** | ✓     | ✓     | ✓     | ✓     | ✓     |
-| `no-console`         | ✕     | ✕     | **✓** | ✓     | ✓     | ✓     | ✓     |
-| `no-unused-vars`     | ✕     | ✕     | ✕     | **✓** | ✓     | ✓     | ✓     |
-| `naming-convention`  | ✕     | ✕     | ✕     | ✕     | **✓** | ✓     | ✓     |
-| `no-explicit-any`    | ✕     | ✕     | ✕     | ✕     | ✕     | **✓** | ✓     |
-| `strict-null-checks` | ✕     | ✕     | ✕     | ✕     | ✕     | ✕     | **✓** |
+| Rule                 | PR #0  | PR #1  | PR #2  | PR #3  | PR #4  | PR #5  | PR #6  |
+|----------------------|--------|--------|--------|--------|--------|--------|--------|
+| `eqeqeq`            |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
+| `no-eval`            |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
+| `import/order`       |   ✕    | **✓**  |   ✓    |   ✓    |   ✓    |   ✓    |   ✓    |
+| `no-console`         |   ✕    |   ✕    | **✓**  |   ✓    |   ✓    |   ✓    |   ✓    |
+| `no-unused-vars`     |   ✕    |   ✕    |   ✕    | **✓**  |   ✓    |   ✓    |   ✓    |
+| `naming-convention`  |   ✕    |   ✕    |   ✕    |   ✕    | **✓**  |   ✓    |   ✓    |
+| `no-explicit-any`    |   ✕    |   ✕    |   ✕    |   ✕    |   ✕    | **✓**  |   ✓    |
+| `strict-null-checks` |   ✕    |   ✕    |   ✕    |   ✕    |   ✕    |   ✕    | **✓**  |
 
 **PR #0**: Add tool to CI. Enable `eqeqeq` and `no-eval` (zero offenses). Disable the rest.
 **PR #1–#6**: One rule per PR. Fix all offenses. Merge. Next.
 
 There are various ways to slice this incremental work:
-
 - per rule
 - per rule per area (backend, frontend)
 - per rule per domain (accounts, invoices, orders)
