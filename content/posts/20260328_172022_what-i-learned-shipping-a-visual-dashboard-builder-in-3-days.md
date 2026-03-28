@@ -2,7 +2,7 @@
 title = "What I Learned Shipping a Visual Dashboard Builder in 3 Days"
 slug = "what-i-learned-shipping-a-visual-dashboard-builder-in-3-days"
 description = "Notes on using multiple LLMs to research, design, implement, and recover a UI-heavy feature under time pressure."
-date = 2026-03-28T00:00:00
+date = 2026-03-28T17:20:22+02:00
 draft = false
 
 [taxonomies]
