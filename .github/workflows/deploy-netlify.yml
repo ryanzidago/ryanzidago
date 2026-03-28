@@ -1,0 +1,51 @@
+name: Deploy to Netlify
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: netlify-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      NETLIFY_SITE_ID: 027f7f06-b388-47b0-b251-454256c5be6d
+      ZOLA_VERSION: 0.22.1
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Zola
+        run: |
+          curl -fsSL "https://github.com/getzola/zola/releases/download/v${ZOLA_VERSION}/zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz" \
+            | tar -xz
+          sudo mv zola /usr/local/bin/zola
+          zola --version
+
+      - name: Build site
+        run: zola build
+
+      - name: Install Netlify CLI
+        run: npm install --global netlify-cli
+
+      - name: Verify deploy token is configured
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: |
+          if [ -z "${NETLIFY_AUTH_TOKEN}" ]; then
+            echo "Missing GitHub secret: NETLIFY_AUTH_TOKEN" >&2
+            exit 1
+          fi
+
+      - name: Deploy to production
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: netlify deploy --prod --dir=public --site="${NETLIFY_SITE_ID}"
