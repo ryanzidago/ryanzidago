@@ -91,7 +91,7 @@
         {% set recent_max = section.extra.recent_max %}
         {% set recent_count = 0 %}
         {% for post in blog_section.pages %}
-        {% if post.extra.pinned and recent_count < recent_max %}
+        {% if not post.extra.bottom and recent_count < recent_max %}
         {% set_global recent_count = recent_count + 1 %}
         <a class="post instant {% if post.extra.featured %}featured{% endif %}" href="{{ post.permalink }}">
           <span>{{ post.title }}</span>
@@ -100,7 +100,7 @@
         {% endif %}
         {% endfor %}
         {% for post in blog_section.pages %}
-        {% if not post.extra.pinned and recent_count < recent_max %}
+        {% if post.extra.bottom and recent_count < recent_max %}
         {% set_global recent_count = recent_count + 1 %}
         <a class="post instant {% if post.extra.featured %}featured{% endif %}" href="{{ post.permalink }}">
           <span>{{ post.title }}</span>
