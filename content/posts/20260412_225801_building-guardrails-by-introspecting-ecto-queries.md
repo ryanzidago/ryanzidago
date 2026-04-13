@@ -15,21 +15,26 @@ comment = false
 
 # Problem
 
-Some query bugs are too semantic for source-level linting and too application-specific for database constraints.
-
 In the age of agentic coding, I am looking more and more for ways to help AI produce code that is safe, readable, maintainable, secure, and performant.
-That naturally pushes me toward guardrails at multiple levels:
-- source-level checks
-- query-level checks
-- database-level checks
-- and anything else that helps the system fail earlier and more clearly
+
+That naturally pushes me toward guardrails at multiple levels.
+
+We already have good tools for some of them:
+- source-level checks such as Credo for style, structure, and local conventions
+- database-level checks, constraints, and introspection for invariants such as indexes, foreign keys, and other schema concerns
+- tests for behavior that should remain true end to end
+
+But there is still an awkward gap in the middle.
+
+Some problems are visible neither from the raw source code nor from the database alone.
+They only become obvious once Ecto has finished composing the final query that will actually run.
 
 Examples:
 - a bulk [`Repo.update_all/3`](https://hexdocs.pm/ecto/Ecto.Repo.html#c:update_all/3) that forgets `updated_at`
 - a composed join query that has become difficult to read or safely extend
 - a timestamp range filter that uses the wrong boundary and silently drops rows
 
-These are real guardrail problems:
+This is the gap I want to target:
 - Credo can see the source code, but it cannot always reason about the final composed query
 - PostgreSQL can enforce hard invariants, but many application guardrails need explicit escape hatches
 - raw SQL inspection happens too late and loses the higher-level Ecto structure
