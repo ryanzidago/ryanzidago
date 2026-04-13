@@ -17,27 +17,25 @@ comment = false
 
 In the age of agentic coding, I am looking more and more for ways to help AI produce code that is safe, readable, maintainable, secure, and performant.
 
-That naturally pushes me toward guardrails at multiple levels.
-
-We already have good tools for some of them:
+We already have useful guardrails at several layers:
 - source-level checks such as Credo for style, structure, and local conventions
 - database-level checks, constraints, and introspection for invariants such as indexes, foreign keys, and other schema concerns
 - tests for behavior that should remain true end to end
 
-But there is still an awkward gap in the middle.
+But there is still a blind spot: the final query that Ecto actually sends to the database.
 
-Some problems are visible neither from the raw source code nor from the database alone.
-They only become obvious once Ecto has finished composing the final query that will actually run.
-
-Examples:
+That is where a lot of real issues live:
 - a bulk [`Repo.update_all/3`](https://hexdocs.pm/ecto/Ecto.Repo.html#c:update_all/3) that forgets `updated_at`
 - a composed join query that has become difficult to read or safely extend
 - a timestamp range filter that uses the wrong boundary and silently drops rows
+- a tenant-scoped query that forgot its tenant or workspace filter
 
-This is the gap I want to target:
+These are awkward bugs because they sit between the usual guardrail layers:
 - Credo can see the source code, but it cannot always reason about the final composed query
 - PostgreSQL can enforce hard invariants, but many application guardrails need explicit escape hatches
 - raw SQL inspection happens too late and loses the higher-level Ecto structure
+
+This matters even more with agentic coding because an AI can easily produce something that is locally plausible and still miss one of these final query-shape conventions.
 
 # Solution
 
@@ -230,6 +228,13 @@ What this check does, step by step:
 - inspect `query.updates`
 - fail if `updated_at` is missing from the final update expression
 
+When this fires, the developer gets a concrete failure instead of a vague convention reminder:
+
+```text
+** (MyApp.EctoQueryRuntimeChecks.Error) Runtime query check failed for :update_all:
+- `Repo.update_all/3` must explicitly set `updated_at` when the target schema defines that field
+```
+
 ## Step 4: Wire it into [`Repo.prepare_query/3`](https://hexdocs.pm/ecto/Ecto.Repo.html#c:prepare_query/3)
 
 Once the check exists, [`Repo.prepare_query/3`](https://hexdocs.pm/ecto/Ecto.Repo.html#c:prepare_query/3) becomes the single integration point:
@@ -351,33 +356,6 @@ What the guardrail is checking:
 
 This is a good runtime check because the final `%Ecto.Query{}` still preserves that information.
 
-## Require [`Repo.update_all/3`](https://hexdocs.pm/ecto/Ecto.Repo.html#c:update_all/3) to set `updated_at`
-
-Why it is useful:
-- [`Repo.update_all/3`](https://hexdocs.pm/ecto/Ecto.Repo.html#c:update_all/3) bypasses Ecto timestamp autogeneration
-- this is a real footgun
-- it is easy to validate from the final query shape
-
-```elixir
-# wrong
-MyApp.Conversation
-|> where([c], c.workspace_id == ^workspace_id)
-|> Repo.update_all(set: [title: "Archived"])
-```
-
-```elixir
-# better
-MyApp.Conversation
-|> where([c], c.workspace_id == ^workspace_id)
-|> Repo.update_all(set: [title: "Archived", updated_at: DateTime.utc_now(:microsecond)])
-```
-
-What the guardrail is checking:
-- the target schema defines `updated_at`
-- the executed [`Repo.update_all/3`](https://hexdocs.pm/ecto/Ecto.Repo.html#c:update_all/3) actually sets it
-
-This is a particularly nice example because the query shape maps directly to a real bug.
-
 ## Require tenant or workspace scope
 
 Why it is useful:
@@ -434,6 +412,9 @@ One convention that works well is:
 - use `<` for the upper bound
 - express time windows as `[start, end)`
 
+This is a chosen convention.
+It is useful because it removes a common class of datetime bugs and gives the team one predictable way to express time windows.
+
 This example uses [`where/3`](https://hexdocs.pm/ecto/Ecto.Query.html#where/3) and [`Repo.all/2`](https://hexdocs.pm/ecto/Ecto.Repo.html#c:all/2).
 
 ```elixir
@@ -457,7 +438,7 @@ Why the second version is better:
 - it composes naturally across days, weeks, and months
 - it gives the team one predictable way to express timestamp ranges
 
-This is a good example of a guardrail that can encode a team convention around a real SQL pitfall.
+This is a good example of a guardrail that can encode a deliberate team convention around a real SQL pitfall.
 
 # Tradeoffs and limitations
 
