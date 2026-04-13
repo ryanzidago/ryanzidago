@@ -37,6 +37,9 @@ These are awkward bugs because they sit between the usual guardrail layers:
 
 This matters even more with agentic coding because an AI can easily produce something that is locally plausible and still miss one of these final query-shape conventions.
 
+The official [Ecto multi-tenancy with foreign keys](https://hexdocs.pm/ecto/multi-tenancy-with-foreign-keys.html) guide already points in this direction by using [`Repo.prepare_query/3`](https://hexdocs.pm/ecto/Ecto.Repo.html#c:prepare_query/3) for default tenant scoping.
+This post takes that same hook a step further and uses it for broader query-shape guardrails.
+
 # Solution
 
 The core idea is to treat [`Repo.prepare_query/3`](https://hexdocs.pm/ecto/Ecto.Repo.html#c:prepare_query/3) as a narrow runtime guardrail hook.
@@ -60,9 +63,6 @@ The final query object still exposes the information we care about:
 - `limit`
 - `updates`
 - root schema metadata
-
-Relevant official docs:
-- [Ecto multi-tenancy with foreign keys](https://hexdocs.pm/ecto/multi-tenancy-with-foreign-keys.html)
 
 Principles:
 - only add checks whose signal survives into `%Ecto.Query{}`
@@ -397,8 +397,6 @@ MyApp.Conversation
 
 What the guardrail is checking:
 - schemas with scope fields such as `tenant_id` or `workspace_id` are actually filtered by them
-
-This is where the [Ecto multi-tenancy with foreign keys](https://hexdocs.pm/ecto/multi-tenancy-with-foreign-keys.html) article is relevant.
 
 ## Use consistent timestamp range boundaries
 
