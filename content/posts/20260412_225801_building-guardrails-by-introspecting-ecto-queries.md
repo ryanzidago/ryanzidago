@@ -17,6 +17,13 @@ comment = false
 
 Some query bugs are too semantic for source-level linting and too application-specific for database constraints.
 
+In the age of agentic coding, I am looking more and more for ways to help AI produce code that is safe, readable, maintainable, secure, and performant.
+That naturally pushes me toward guardrails at multiple levels:
+- source-level checks
+- query-level checks
+- database-level checks
+- and anything else that helps the system fail earlier and more clearly
+
 Examples:
 - a bulk [`Repo.update_all/3`](https://hexdocs.pm/ecto/Ecto.Repo.html#c:update_all/3) that forgets `updated_at`
 - a composed join query that has become difficult to read or safely extend
