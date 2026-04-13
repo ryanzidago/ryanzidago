@@ -6,3 +6,6 @@ public/
 
 # Playwright MCP
 .playwright-mcp/
+
+# Local Codex state
+.codex-home/
