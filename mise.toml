@@ -1,0 +1,2 @@
+[env]
+CODEX_HOME = "{{config_root}}/.codex-home"
